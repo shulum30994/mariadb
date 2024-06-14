@@ -1,0 +1,35 @@
+#membuat user baru
+CREATE USER 'shohibul'@'localhost' IDENTIFIED BY '';
+
+#membeerikan akses root kepada user baru
+GRANT ALL PRIVILEGES ON *.* to 'shohibul'@'localhost';
+
+#membuat tabel di dalam database
+create table bt(id_kegiatan varchar(7), id varchar(14), sub_kegiatan varchar(40), kegiatan varchar(35), komoditas varchar(35), hkp double,hkw double, jam double, jenis_upah varchar(2), borongan varchar(30), pola_upah varchar(2), upah_pria double, upah_wanita double, insentif_pria double, insentif_wanita double, index(id), foreign key(id) references identitas(id) on update cascade on delete restrict, primary key(id_kegiatan));
+
+#tabel dengan lebih dari dua foreign key
+create table sosial(id integer, prodi1 integer, universitas1 integer, prodi2 integer, universitas2 integer, ekonomi double, geografi double, kmb double, kpu double, matematika double, ppu double, sejarah double, sosial double, index(prodi1), foreign key(prodi1) references prodi(id) on update cascade on delete restrict, index(universitas1), foreign key(universitas1) references universitas(id) on update cascade on delete restrict, index(prodi2), foreign key(prodi2) references prodi(id) on update cascade on delete restrict, index(universitas2), foreign key(universitas2) references universitas(id) on update cascade on delete restrict, primary key(id));
+
+# menghapus kolom dari tabel
+ALTER TABLE <nama tabel> DROP <nama kolom>
+
+#update record di dalam tabel
+UPDATE replaceDemo SET Name = REPLACE (Name, 'Demo', 'Amit') WHERE Name LIKE 'Demo';
+
+#import data dari file .csv :
+load data local infile '/home/shohibul/Documents/py_project/tembakau/bt.csv' into table bt fields terminated by ',' lines terminated by '\n';
+
+#non-aktif constraint check antar tabel
+SET FOREIGN_KEY_CHECKS=0
+
+#aktif constraint check kembali antar tabel
+SET FOREIGN_KEY_CHECKS=1
+
+#hapus semua table berikut database
+DROP DATABASE atomstore;
+
+#export ke file .sql
+mysqldump -u username -p database_name > data-dump.sql
+
+#import dari file .sql
+mysql -u username -p database_name < file.sql
